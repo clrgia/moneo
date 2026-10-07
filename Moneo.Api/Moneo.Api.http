@@ -7,3 +7,8 @@ Accept: application/json
 
 GET {{Moneo.Api_HostAddress}}/api/accounts/db4b4cdd-81c3-4485-b8b5-4cd2dec783a1/operations/
 Accept: application/json
+
+###
+
+GET {{Moneo.Api_HostAddress}}/api/accounts/db4b4cdd-81c3-4485-b8b5-4cd2dec783a1/operations/AACAB0AC-A127-4CB0-86B8-7E48CBF112A3
+Accept: application/json

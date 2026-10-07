@@ -9,5 +9,5 @@
         public Guid AccountId { get; set; }
         public Account Account { get; set; } = null!;
         public Guid? CategoryId { get; set; }
-        public required Category Category { get; set; }
+        public Category Category { get; set; }
 }

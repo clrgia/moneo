@@ -1,4 +1,4 @@
-﻿namespace Moneo.Api.Dtos;
+﻿namespace Moneo.Api.Dtos.Operations;
 
 public record OperationDto(
     Guid Id,
