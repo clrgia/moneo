@@ -1,0 +1,5 @@
+<div class="w-full flex space-between gap-2">
+    @for (stat of stats; track stat.label) {
+  <app-stat [label]="stat.label" [amount]="stat.amount" [type]="stat.type"></app-stat>
+}
+</div>

@@ -1,0 +1,9 @@
+<div class="shadow w-60 rounded-xl">
+  <div class="flex flex-col gap-1 p-4 py-6">
+    <div class="flex justify-between items-center">
+      <div>{{ label() }}</div>
+      <div class="badge badge-ghost">{{ type() }}</div>
+    </div>
+    <div class="font-bold text-2xl">{{ amount() | number: '1.2-2' : 'fr' }}€</div>
+  </div>
+</div>

@@ -1,15 +1,14 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  imports: [],
+  imports: [RouterLink],
   selector: 'app-button',
   styleUrl: './button.css',
   templateUrl: './button.html',
 })
 export class Button {
-  public text = input.required<string>();
-  public value = input.required<boolean>();
-  public buttonClass = computed<string>(() => {
-    return this.value() ? 'green' : 'red';
-  });
+  public label = input.required<string>();
+  public linkTo = input.required<string>();
+  public icon = input.required<string>();
 }
