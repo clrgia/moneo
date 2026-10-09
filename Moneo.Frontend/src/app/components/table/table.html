@@ -1,0 +1,13 @@
+<div class="overflow-x-auto">
+  <table class="table">
+    <tbody>
+        <tr>
+          <td>
+            {{ label() }}
+            <p class="text-sm opacity-50">{{ date() | date: 'short' }}</p>
+          </td>
+          <td class="flex justify-end font-bold" [class]="color()">{{ amount() | number: '1.2-2' : 'fr' }}€</td>
+        </tr>
+    </tbody>
+  </table>
+</div>
