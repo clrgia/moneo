@@ -1,8 +1,8 @@
 import { Component, computed, input } from '@angular/core';
-import { DecimalPipe, DatePipe } from '@angular/common';
+import { DecimalPipe, DatePipe, TitleCasePipe} from '@angular/common';
 
 @Component({
-  imports: [DecimalPipe, DatePipe],
+  imports: [DecimalPipe, DatePipe, TitleCasePipe],
   selector: 'app-table',
   templateUrl: './table.html',
 })
