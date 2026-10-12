@@ -1,10 +1,9 @@
 import { Component, input } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
+import { DecimalPipe, TitleCasePipe } from '@angular/common';
 
 @Component({
-  imports: [DecimalPipe],
+  imports: [DecimalPipe, TitleCasePipe ],
   selector: 'app-stat',
-  styleUrl: './stat.css',
   templateUrl: './stat.html',
 })
 export class Stat {

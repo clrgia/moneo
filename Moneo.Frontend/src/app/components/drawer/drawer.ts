@@ -4,7 +4,6 @@ import { Button } from '../button/button';
 @Component({
   imports: [Button],
   selector: 'app-drawer',
-  styleUrl: './drawer.css',
   templateUrl: './drawer.html',
 })
 export class Drawer {

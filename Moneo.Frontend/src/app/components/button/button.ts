@@ -4,7 +4,6 @@ import { RouterLink } from '@angular/router';
 @Component({
   imports: [RouterLink],
   selector: 'app-button',
-  styleUrl: './button.css',
   templateUrl: './button.html',
 })
 export class Button {

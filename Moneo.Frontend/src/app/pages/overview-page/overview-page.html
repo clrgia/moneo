@@ -1,5 +1,26 @@
-<div class="w-full flex space-between gap-2">
+<div class="p-6 pt-10">
+  <h1 class="text-sm">Total balance, all accounts</h1>
+  <p class="text-5xl font-bold pb-6">{{ totalBalance | number: '1.2-2' : 'fr' }}€</p>
+
+  <h1 class="pb-2 font-semibold">My accounts</h1>
+
+  <div class="w-full grid grid-cols-3 gap-4">
     @for (stat of stats; track stat.label) {
-  <app-stat [label]="stat.label" [amount]="stat.amount" [type]="stat.type"></app-stat>
-}
+      <app-stat [label]="stat.label" [amount]="stat.amount" [type]="stat.type"></app-stat>
+    }
+  </div>
+  <div class="grid grid-cols-2 gap-4 mt-4">
+    <div class="shadow rounded-xl p-4 py-6">
+      <h1 class="pb-2 font-semibold">Monthly expenses</h1>
+      @for (category of categories; track category.label) {
+        <app-category [label]="category.label" [percentage]="category.percentage"></app-category>
+      }
+    </div>
+    <div class="shadow rounded-xl p-4 py-6">
+      <h1 class="pb-2 font-semibold">Last operations</h1>
+        @for (operation of operations; track operation.label) {
+        <app-table [label]="operation.label" [date]="operation.date" [amount]="operation.amount"></app-table>
+      }
+    </div>
+  </div>
 </div>
