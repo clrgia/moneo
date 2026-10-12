@@ -4,7 +4,6 @@ import { DecimalPipe, DatePipe } from '@angular/common';
 @Component({
   imports: [DecimalPipe, DatePipe],
   selector: 'app-table',
-  styleUrl: './table.css',
   templateUrl: './table.html',
 })
 export class Table {
