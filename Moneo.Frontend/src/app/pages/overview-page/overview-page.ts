@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject, computed } from '@angular/core';
 import { Stat } from '../../components/stat/stat';
 import { DecimalPipe } from '@angular/common';
 import { Category } from '../../components/category/category';
 import { Table } from '../../components/table/table';
+import { AccountService } from '../../services/account';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 
 @Component({
@@ -12,13 +14,12 @@ import { Table } from '../../components/table/table';
   templateUrl: './overview-page.html',
 })
 export class OverviewPage {
-  public stats = [
-    { label: 'Compte courant', amount: 12564.25, type: 'Current' },
-    { label: 'Livret A', amount: 18000.24, type: 'Savings' },
-    { label: 'LEP', amount: 10000, type: 'Savings' },
-  ];
+  private accountService = inject(AccountService);
+  public accounts = toSignal(this.accountService.getAll(), { initialValue: [] });
 
-  public totalBalance = this.stats.reduce((acc, stat) => acc + stat.amount, 0);
+  public totalBalance = computed(() =>
+    this.accounts().reduce((total, account) => total + account.currentBalance, 0),
+  );
 
   public categories = [
     { label: 'Housing', percentage: 50 },

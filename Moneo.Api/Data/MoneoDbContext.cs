@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Moneo.Api.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Moneo.Api.Data;
 
-    public class MoneoDbContext : DbContext
+    public class MoneoDbContext : IdentityDbContext<IdentityUser>
     {
         public MoneoDbContext(DbContextOptions<MoneoDbContext> options) : base(options){}
 
@@ -13,6 +15,8 @@ namespace Moneo.Api.Data;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+        base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<Account>()
             .Property(a => a.Name)
@@ -49,6 +53,18 @@ namespace Moneo.Api.Data;
             .WithOne(o => o.Category)
             .HasForeignKey(o => o.CategoryId)
             .OnDelete(DeleteBehavior.SetNull);
+
+        modelBuilder.Entity<Account>()
+            .HasOne<IdentityUser>()
+            .WithMany()
+            .HasForeignKey(u => u.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Category>()
+            .HasOne<IdentityUser>()
+            .WithMany()
+            .HasForeignKey(u => u.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
 

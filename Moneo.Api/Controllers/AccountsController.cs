@@ -1,13 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Moneo.Api.Data;
 using Moneo.Api.Dtos.Accounts;
 using Moneo.Api.Models;
+using System.Security.Claims;
 
 namespace Moneo.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AccountsController : ControllerBase
     {
         private readonly MoneoDbContext _context;
@@ -17,11 +20,14 @@ namespace Moneo.Api.Controllers
             _context = context;
         }
 
+        private string CurrentUserId => User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AccountDto>>> GetAccounts()
         {
 
             var accounts = await _context.Accounts
+                .Where(a => a.UserId == CurrentUserId)
                 .Select(a => new AccountDto(
                     a.Id,
                     a.Name,
@@ -39,7 +45,7 @@ namespace Moneo.Api.Controllers
         public async Task<ActionResult<AccountDto>> GetAccount(Guid id)
         {
             var account = await _context.Accounts
-                .Where(a => a.Id == id)
+                .Where(a => a.Id == id && a.UserId == CurrentUserId)
                 .Select(a => new AccountDto(
                     a.Id,
                     a.Name,
@@ -64,7 +70,9 @@ namespace Moneo.Api.Controllers
             {
                 Name = createAccountDto.Name,
                 Type = createAccountDto.Type,
-                InitialBalance = createAccountDto.InitialBalance
+                InitialBalance = createAccountDto.InitialBalance,
+                UserId = CurrentUserId
+
             };
 
             _context.Accounts.Add(account);
@@ -86,7 +94,7 @@ namespace Moneo.Api.Controllers
         public async Task<IActionResult> UpdateAccount(Guid id, UpdateAccountDto updateAccountDto)
         {
             var account = await _context.Accounts
-                .Where(a => a.Id == id)
+                .Where(a => a.Id == id && a.UserId == CurrentUserId)
                 .FirstOrDefaultAsync();
 
             if (account == null)
@@ -107,7 +115,7 @@ namespace Moneo.Api.Controllers
         public async Task<IActionResult> DeleteAccount(Guid id)
         {
             var account = await _context.Accounts
-                .Where(a => a.Id == id)
+                .Where(a => a.Id == id && a.UserId == CurrentUserId)
                 .FirstOrDefaultAsync();
 
             if (account == null)

@@ -1,13 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Moneo.Api.Data;
 using Moneo.Api.Dtos.Operations;
 using Moneo.Api.Models;
+using System.Security.Claims;
 
 namespace Moneo.Api.Controllers
 {
     [Route("api/accounts/{accountId}/[controller]")]
     [ApiController]
+    [Authorize]
     public class OperationsController : ControllerBase
     {
         private readonly MoneoDbContext _context;
@@ -17,9 +20,19 @@ namespace Moneo.Api.Controllers
             _context = context;
         }
 
+        private string CurrentUserId => User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OperationDto>>> GetOperations(Guid accountId)
         {
+            var ownsAccount = await _context.Accounts
+                .AnyAsync(a => a.Id == accountId && a.UserId == CurrentUserId);
+
+            if (!ownsAccount)
+            {
+                return NotFound();
+            }
+
             if (await _context.Accounts.AnyAsync(x => x.Id == accountId) == false)
             {
                 return NotFound();
